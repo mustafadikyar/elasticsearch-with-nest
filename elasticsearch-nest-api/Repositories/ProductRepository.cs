@@ -11,7 +11,7 @@ public class ProductRepository
     public async Task<Product?> InsertAsync(Product product)
     {
         product.Created = DateTime.Now;
-        var response = await _elasticsearchClient.IndexAsync(product, c => c.Index("products"));
+        var response = await _elasticsearchClient.IndexAsync(product, c => c.Index("products").Id(Guid.NewGuid().ToString()));
 
         if (response != null) 
             return null;
