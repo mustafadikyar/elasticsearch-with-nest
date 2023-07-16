@@ -13,4 +13,8 @@ public class ProductsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Post(ProductCreateDTO request) 
         => Ok(await _productService.InsertAsync(request));
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+       => Ok(await _productService.GetAllAsync());
 }

@@ -1,4 +1,6 @@
-﻿namespace elasticsearch_nest_api.Repositories;
+﻿using System.Collections.Immutable;
+
+namespace elasticsearch_nest_api.Repositories;
 
 public class ProductRepository
 {
@@ -11,12 +13,24 @@ public class ProductRepository
     public async Task<Product?> InsertAsync(Product product)
     {
         product.Created = DateTime.Now;
-        var response = await _elasticsearchClient.IndexAsync(product, c => c.Index("products").Id(Guid.NewGuid().ToString()));
+        var response = await _elasticsearchClient.IndexAsync(product, c => c.Index(index: "products").Id(Guid.NewGuid().ToString()));
 
-        if (response != null) 
+        if (response != null)
             return null;
 
         product.Id = response!.Id;
         return product;
+    }
+
+    public async Task<IReadOnlyCollection<Product>> GetAllAsync()
+    {
+        var response = await _elasticsearchClient
+            .SearchAsync<Product>(c => c.Index("products")
+            .Query(c => c.MatchAll()));
+
+        foreach(var hit in response.Hits) 
+            hit.Source.Id = hit.Id;
+
+        return response.Documents.ToImmutableList(); //listede bir değişiklik yapılamaz
     }
 }
