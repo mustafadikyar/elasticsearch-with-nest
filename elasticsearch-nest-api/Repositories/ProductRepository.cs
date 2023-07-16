@@ -45,4 +45,10 @@ public class ProductRepository
 
         return response.Source;
     }
+
+    public async Task<bool> UpdateAsync(ProductUpdateDTO request)
+    {
+        var response = await _elasticsearchClient.UpdateAsync<Product, ProductUpdateDTO>(request.id,c=> c.Index("products").Doc(request));
+        return response.IsValid;
+    }
 }

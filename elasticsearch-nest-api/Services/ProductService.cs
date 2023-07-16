@@ -23,17 +23,21 @@ public class ProductService
     public async Task<ImmutableList<ProductDTO>> GetAllAsync()
     {
         var response = await _productRepository.GetAllAsync();
-        return response.Select(c=> new ProductDTO(c.Id, c.Name, c.Price, c.Stock, new ProductDetailDTO(c.Detail!.Width, c.Detail!.Height))).ToImmutableList();
+        return response.Select(c => new ProductDTO(c.Id, c.Name, c.Price, c.Stock, new ProductDetailDTO(c.Detail!.Width, c.Detail!.Height))).ToImmutableList();
     }
 
     public async Task<ProductDTO?> GetByIdAsync(string id)
     {
         var response = await _productRepository.GetByIdAsync(id);
 
-        if (response == null) 
+        if (response == null)
             return null;
 
-        return response.CreateProductDTO(); 
+        return response.CreateProductDTO();
+    }
 
+    public async Task<bool> UpdateAsync(ProductUpdateDTO request)
+    {
+        return await _productRepository.UpdateAsync(request);
     }
 }

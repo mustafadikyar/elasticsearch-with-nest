@@ -11,7 +11,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post(ProductCreateDTO request) 
+    public async Task<IActionResult> Post(ProductCreateDTO request)
         => Ok(await _productService.InsertAsync(request));
 
     [HttpGet]
@@ -21,4 +21,8 @@ public class ProductsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetAll(string id)
       => Ok(await _productService.GetByIdAsync(id));
+
+    [HttpPut]
+    public async Task<IActionResult> Put(ProductUpdateDTO request)
+       => Ok(await _productService.UpdateAsync(request));
 }
