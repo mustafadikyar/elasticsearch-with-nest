@@ -33,4 +33,16 @@ public class ProductRepository
 
         return response.Documents.ToImmutableList(); //listede bir değişiklik yapılamaz
     }
+
+    public async Task<Product?> GetByIdAsync(string id)
+    {
+        var response = await _elasticsearchClient.GetAsync<Product>(id, c => c.Index(index: "products"));
+
+        if(!response.IsValid)
+            return null;
+
+        response.Source.Id = response!.Id;
+
+        return response.Source;
+    }
 }

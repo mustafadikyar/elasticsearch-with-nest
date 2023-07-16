@@ -25,4 +25,15 @@ public class ProductService
         var response = await _productRepository.GetAllAsync();
         return response.Select(c=> new ProductDTO(c.Id, c.Name, c.Price, c.Stock, new ProductDetailDTO(c.Detail!.Width, c.Detail!.Height))).ToImmutableList();
     }
+
+    public async Task<ProductDTO?> GetByIdAsync(string id)
+    {
+        var response = await _productRepository.GetByIdAsync(id);
+
+        if (response == null) 
+            return null;
+
+        return response.CreateProductDTO(); 
+
+    }
 }
