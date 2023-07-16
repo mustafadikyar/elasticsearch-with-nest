@@ -1,4 +1,6 @@
-﻿namespace elasticsearch_nest_api.Models;
+﻿using elasticsearch_nest_api.DTOs;
+
+namespace elasticsearch_nest_api.Models;
 
 public class Product
 {
@@ -10,4 +12,12 @@ public class Product
     public DateTime Created { get; set; }
     public DateTime? Updated { get; set; }
     public ProductDetail? Detail { get; set; }
+
+    public ProductDTO CreateProductDTO()
+    {
+        if (Detail == null)
+            return new ProductDTO(Id, Name, Price, Stock, null);
+
+        return new ProductDTO(Id, Name, Price, Stock, new ProductDetailDTO(Detail.Width, Detail.Height));
+    }
 }
