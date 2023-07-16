@@ -40,4 +40,9 @@ public class ProductService
     {
         return await _productRepository.UpdateAsync(request);
     }
+
+    public async Task<bool> DeleteAsync(string id)
+    {
+        return await _productRepository.DeleteAsync(id);
+    }
 }

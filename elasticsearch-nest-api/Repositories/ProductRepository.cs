@@ -51,4 +51,10 @@ public class ProductRepository
         var response = await _elasticsearchClient.UpdateAsync<Product, ProductUpdateDTO>(request.id,c=> c.Index("products").Doc(request));
         return response.IsValid;
     }
+
+    public async Task<bool> DeleteAsync(string id)
+    {
+        var response = await _elasticsearchClient.DeleteAsync<Product>(id, c => c.Index(index: "products"));
+        return response.IsValid;
+    }
 }

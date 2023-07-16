@@ -25,4 +25,8 @@ public class ProductsController : ControllerBase
     [HttpPut]
     public async Task<IActionResult> Put(ProductUpdateDTO request)
        => Ok(await _productService.UpdateAsync(request));
+
+    [HttpDelete]
+    public async Task<IActionResult> Delete(string id)
+      => Ok(await _productService.DeleteAsync(id));
 }
