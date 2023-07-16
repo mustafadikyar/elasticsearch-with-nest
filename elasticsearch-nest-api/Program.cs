@@ -1,3 +1,5 @@
+using elasticsearch_nest_api.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -8,6 +10,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddElastic(builder.Configuration);
+
+builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<ProductRepository>();
 
 var app = builder.Build();
 
